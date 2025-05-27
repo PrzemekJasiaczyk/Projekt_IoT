@@ -10,7 +10,14 @@ using var registryManager = RegistryManager.CreateFromConnectionString(conString
 
 var manager = new Projekt_IoT.IotHubManager(serviceClient, registryManager);
 
-//do while ...
+int input;
+do
+{
+    FeatureSelector.PrintMenu();
+    input = FeatureSelector.ReadInput();
+    await FeatureSelector.Execute(input, manager);
+} while (input != 0);
+
 
 Console.WriteLine("[Controller] Controller End Working");
 Console.WriteLine("-------------------------------------------------");
