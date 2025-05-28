@@ -47,7 +47,7 @@ namespace Projekt_IoT_Device
             var GoodCountCalculateNode = new OpcReadNode($"ns=2;s={DeviceName}/GoodCount");
             var BadCountCalculateNode = new OpcReadNode($"ns=2;s={DeviceName}/BadCount");
             int GoodCountCalculate = client.ReadNode(GoodCountCalculateNode).As<int>();
-            int BadCountCalculate = client.ReadNode(GoodCountCalculateNode).As<int>();
+            int BadCountCalculate = client.ReadNode(BadCountCalculateNode).As<int>();
             var ProductionRate = new OpcReadNode($"ns=2;s={DeviceName}/ProductionRate");
             var DeviceError = new OpcReadNode($"ns=2;s={DeviceName}/DeviceError");
             int ProductionRateNode = client.ReadNode(ProductionRate).As<int>();
