@@ -9,6 +9,7 @@ namespace Projekt_IoT
 {
     internal class FeatureSelector
     {
+        #region PrintMenu
         public static void PrintMenu()
         {
             Console.WriteLine("");
@@ -27,7 +28,9 @@ namespace Projekt_IoT
       0 - Exit"
             );
         }
+        #endregion
 
+        #region Task Execute
         public static async Task Execute(int feature, Projekt_IoT.IotHubManager manager)
         {
             switch (feature)
@@ -127,13 +130,16 @@ namespace Projekt_IoT
             }
 
         }
+        #endregion
+
+        #region ReadInput
         internal static int ReadInput()
         {
             var keyPressed = Console.ReadKey();
             var isParsed = int.TryParse(keyPressed.KeyChar.ToString(), out int value);
             return isParsed ? value : -1;
         }
-
+        #endregion
 
     }
 

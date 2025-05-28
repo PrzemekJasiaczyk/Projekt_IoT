@@ -193,7 +193,7 @@ namespace Projekt_IoT_Device
             await deviceClient.SetMethodHandlerAsync("PowerON", PowerON, deviceClient);
             await deviceClient.SetMethodHandlerAsync("PowerOFF", PowerOFF, deviceClient);
         }
-
+        #region PowerON
         private async Task<MethodResponse> PowerON(MethodRequest methodRequest, object userContext)
         {
             var client = new OpcClient(OPCstring);
@@ -204,7 +204,9 @@ namespace Projekt_IoT_Device
             client.Disconnect();
             return new MethodResponse(0);
         }
+        #endregion
 
+        #region PowerOFF
         private async Task<MethodResponse> PowerOFF(MethodRequest methodRequest, object userContext)
         {
             var client = new OpcClient(OPCstring);
@@ -217,7 +219,9 @@ namespace Projekt_IoT_Device
             Console.WriteLine("[Agent] Device Stop By Controller !");
             return new MethodResponse(0);
         }
+        #endregion
 
+        #region PrintMessages
         private void PrintMessages(Message recievedMessage)
         {
             string messageData = Encoding.ASCII.GetString(recievedMessage.GetBytes());
@@ -228,7 +232,8 @@ namespace Projekt_IoT_Device
                 Console.WriteLine($"[Agent] \t\tProperty[{propCount++}>Key={prop.Key}:Value={prop.Value}");
             }
         }
-
+        #endregion
+        #region SendMessagesHandler
         private async Task<MethodResponse> SendMessagesHandler(MethodRequest methodRequest, object userContext)
         {
             Console.WriteLine("[Agent] Method Requested: ");
@@ -237,7 +242,8 @@ namespace Projekt_IoT_Device
             await SendMessages();
             return new MethodResponse(0);
         }
-
+        #endregion
+        #region DefoultServiceHandler
         private async Task<MethodResponse> DefaultServiceHandler(MethodRequest methodRequest, object userContext)
         {
             Console.WriteLine("[Agent] Method Requested: ");
@@ -246,6 +252,9 @@ namespace Projekt_IoT_Device
             await Task.Delay(1000);
             return new MethodResponse(0);
         }
+        #endregion
+
+        #region UpdateTwinAsync
 
         public async Task UpdateTwinAsync()
         {
@@ -259,6 +268,9 @@ namespace Projekt_IoT_Device
 
             await deviceClient.UpdateReportedPropertiesAsync(reportedProperties);
         }
+        #endregion
+
+        #region OnDesirePropertyChanged
         private async Task OnDesirePropertyChanged(TwinCollection desiredProperties, object _)
         {
             Console.WriteLine($"[Agent] \t Desired property change: \n\t {JsonConvert.SerializeObject(desiredProperties)}");
@@ -277,6 +289,9 @@ namespace Projekt_IoT_Device
             await deviceClient.UpdateReportedPropertiesAsync(reportedProperties);
 
         }
+        #endregion
+
+        #region UpdateProductionRateup
         private async Task<MethodResponse> UpdateProductionRateup(MethodRequest methodRequest, object userContext)
         {
             var client = new OpcClient(OPCstring);
@@ -290,7 +305,9 @@ namespace Projekt_IoT_Device
             client.Disconnect();
             return new MethodResponse(0);
         }
+        #endregion
 
+        #region UpdateProductionRatedown
         private async Task<MethodResponse> UpdateProductionRatedown(MethodRequest methodRequest, object userContext)
         {
             var client = new OpcClient(OPCstring);
@@ -304,7 +321,9 @@ namespace Projekt_IoT_Device
             client.Disconnect();
             return new MethodResponse(0);
         }
+        #endregion
 
+        #region EmetgencyStop
         private async Task<MethodResponse> EmergencyStop(MethodRequest methodRequest, object userContext)
         {
             var client = new OpcClient(OPCstring);
@@ -316,7 +335,9 @@ namespace Projekt_IoT_Device
             Console.WriteLine("[Agent] Stop !");
             return new MethodResponse(0);
         }
+        #endregion
 
+        #region ResetErrors
         private async Task<MethodResponse> ResetErrors(MethodRequest methodRequest, object userContext)
         {
             var client = new OpcClient(OPCstring);
@@ -328,6 +349,7 @@ namespace Projekt_IoT_Device
             Console.WriteLine("[Agent] Errors Reseted !");
             return new MethodResponse(0);
         }
+        #endregion
     }
 }
 
