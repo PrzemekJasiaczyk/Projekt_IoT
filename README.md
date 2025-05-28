@@ -9,8 +9,8 @@
 4. [Konfiguracja]
 5. [Opis działania agenta]
 6. [Format wiadomości C2D]
-7. [Device Twin]
-8. [Obsługiwane metody bezpośrednie (Direct Methods)]
+7. [Menu Controlera i akcje] - symulacja
+8. [Opis dostępnych funkcjonalności]
 
 ---
 
@@ -29,8 +29,10 @@ Aplikacja IoT Agent umożliwia integrację urządzenia z serwerem OPC UA oraz Az
 
 ## Uruchomienie aplikacji
 
-1. Skonfiguruj  Visual Studio wiele projektów start-upowych > Projekt_IoT Uruchom i Projekt_IoT_Device Uruchom.
-2. Kliknij przycisk **"Rozpocznij"** (Start), aby uruchomić agenta.
+1. Uruchomienie UA SampleClient pod adersem opc.tcp://localhost:4840/
+2. Uruchomienie Industrial Device Simulator i dodanie nowego użądzenia.
+3. Skonfiguruj  Visual Studio wiele projektów start-upowych > Projekt_IoT Uruchom i Projekt_IoT_Device Uruchom.
+4. Kliknij przycisk **"Rozpocznij"** (Start), aby uruchomić agenta.
 
 ---
 
@@ -64,10 +66,10 @@ Aplikacja IoT Agent umożliwia integrację urządzenia z serwerem OPC UA oraz Az
 ---
 
 ## Format wiadomości C2D
-###Start device
+### Start device
 
 |------------------------------------------|
-[Agent] Azure Conntecting String Loaded
+```[Agent] Azure Conntecting String Loaded
 [Agent] Connection with Device Established
 [Agent]         Initial twin value recived:
 {
@@ -97,13 +99,127 @@ Aplikacja IoT Agent umożliwia integrację urządzenia z serwerem OPC UA oraz Az
 [Agent] Start Working...
 
 |---------------------------------------|
+
+[Agent] Getting data from Opc Ua ...
+
+[Agent] Data Collected
+
+[Agent] Device sending message to Azure IOT HUB
+
+
+[Agent]27.05.2025 18:02:24 --- Message sending
+
+[Data] [{"ProductionStatus":null,"WorkorderId":null,"Temperature":null,"GoodCount":null,"BadCount":null,"ProductionRate":null}]
+
+[Agent] Message Send to Azure
+ 
+ [Agent] Device Offline -> Not Sending Data !
+```
+## Menu Controlera i akcje
+```
+[Controller] Azure Conntecting String Loaded
+------ MENU ------
+1 - C2D - Cloud to Device
+2 - Device Twin                                                                                                       
+3 - Direct Method - Send Message                                                                                        
+4 - Direct Method - Emergency STOP                                                                                      
+5 - Direct Method - Reset Errors                                                                                        
+6 - Increase Production Rate by 10                                                                                      
+7 - Decrease Production Rate by 10                                                                                      
+8 - Set Production Rate                                                                                                 
+0 - Exit                                                                                                          
+1                                                                                                                       
+Write your message text and click enter:                                                                               
+Hello device                                                                                                            
+Enter your Azure ID device and click enter:                                                                            
+Device1                                                                                                                 
+Message sent! 
+2
+Enter your Azure ID device and click enter:
+Device1
+Enter your property Name:
+Temperature
+3                                                                                                                      
+Enter your Azure ID device and click enter                                                                              
+Device1                                                                                                                 
+[Controller] Method Executed with: 0 
+4
+Enter your Azure ID device and click enter:
+Device1
+[Controller] Method Executed with: 500
+5
+Enter your Azure ID device and click enter:
+Device1
+[Controller] Method Executed with: 500
+6
+Enter your Azure ID device and click enter:
+Device1
+[Controller] Method Executed with: 0
+7
+Enter your Azure ID device and click enter:
+Device1
+[Controller] Method Executed with: 0
+
+0[Controller] Controller End Working
+-------------------------------------------------
+```
+### Informacje zwrotne 
+```
+|---------------------------------------|
 [Agent] Getting data from Opc Ua ...
 [Agent] Data Collected
 [Agent] Device sending message to Azure IOT HUB
 
-[Agent]27.05.2025 18:02:24 --- Message sending
+[Agent]27.05.2025 21:16:44 --- Message sending
+[Data] [{"ProductionStatus":null,"WorkorderId":null,"Temperature":null,"GoodCount":null,"BadCount":null,"ProductionRate":null}]
+[Agent] Message Send to Azure
+[Agent] Device Offline -> Not Sending Data !
+[Agent] Device Offline -> Not Sending Data !
+[Agent] Device Offline -> Not Sending Data !
+[Agent] Device Offline -> Not Sending Data !
+ |---------------------------------------|
+[Agent]         27.05.2025 21:17:06> C2D message callback - message recieved with id=580f004a-104a-4fed-ad9d-eaa0206d24fd
+[Agent]                 Recieved message: {"text":"Hello device"}
+[Agent]         27.05.2025 21:17:06> Completed C2D message with ID=580f004a-104a-4fed-ad9d-eaa0206d24fd
+[Agent] Device Offline -> Not Sending Data !
+[Agent] Device Offline -> Not Sending Data !
+[Agent] Device Offline -> Not Sending Data !
+  |---------------------------------------|
+  [Agent]          Desired property change:
+{"$version":16,"BadCount":1429786692,"DeviceErrors":845448158,"GoodCount":185742273,"ProductionStatus":343258145,"Temperature":1436428444,"WorkerID":1871513973,"WorkorderID":1871513973,"prop1":691424510,"temperature":900235169}
+[Agent]         Sending current time as reported property
+[Agent] Device Offline -> Not Sending Data !
+ |---------------------------------------|
+[Agent] Getting data from Opc Ua ...
+[Agent] Data Collected
+[Agent] Device sending message to Azure IOT HUB
+[Agent]27.05.2025 21:20:58 --- Message sending
 [Data] [{"ProductionStatus":null,"WorkorderId":null,"Temperature":null,"GoodCount":null,"BadCount":null,"ProductionRate":null}]
 [Agent] Message Send to Azure
  [Agent] Device Offline -> Not Sending Data !
+ [Agent] Device Offline -> Not Sending Data !
+|---------------------------------------|
+|---------------------------------------|
+|---------------------------------------|
+|---------------------------------------|
+|---------------------------------------|
+[Agent] Device Offline -> Not Sending Data !                                                                           
+[Agent]          Desired property change:                                                                                        
+{"$version":19,"BadCount":1429786692,"Device1":"190","DeviceErrors":845448158,"GoodCount":185742273,"KlockiLego":"190","ProductionStatus":343258145,"Temperature":1436428444,
+"WorkerID":1871513973,"WorkorderID":1871513973,"kjfwf":1913029940,"prop1":691424510,"temperature":900235169}                                                                 
+[Agent]         Sending current time as reported property
+```
 
-CDN..
+
+## Opis dostępnych funkcjonalności
+- `SendMessage()` - Wysyłanie danych do Azure IoT Hub. Odczytuje dane z OPC UA (status, temperatura, licznik dobrych/złych produktów, prędkość produkcji), parsuje do postaci JSON i wysyła jako komunikat do IoT Hub.
+- `TimerSendingMessages()` - Automatyczne wysyłanie danych w zależności od stanu urządzenia. Sprawdza, czy urządzenie jest w trybie pracy (ProductionStatus == 1). Jeżeli tak – wysyła dane. W przeciwnym razie analizuje błędy i nie wysyła danych.
+- `InitializerHandlers()` - Obsługa metod bezpośrednich z IoT Hub (Direct Methods). Obsługuje polecenia takie jak uruchomienie SendMessages(), zwiększa/ zmniejsza produkcję ChangeProgRateUp/Down(), awaryjne zatrzymanie EmergencyStop(), resetuje błędy ClearErrors(), włącza/wyłącza użądzenie PowerOn/Off() i zmienia ProductionStatus.
+- `On2cdMessageRecievedAsync()` - Obsługa wiadomości C2D (cloud-to-device). Odbiera wiadomości, printuje ich zawartość i kończy sesję.
+- `UpdateTwinAsync()` i `UpdateTwinData()` - Aktualizacja raportowanych właściwości urządzenia (Device Twin). Aktualizuje datę ostatniego uruchomienia aplikacji DateTimeLastAppLaunch. Przesyła aktualne błędy ErrorStatus i prędkość produkcji ProductionRate.
+- `OnDesirePropertyChanged()` - Ragowanie na zmienę właściwości pożądanych danych. Jeśli w Twin zmieniono ProductionRate, wartość ta jest przesyłana do serwera OPC UA.
+
+- Cloud to Device Message - Metoda SendMessage(messageText, deviceId) z klasy IotHubManager wysyła wiadomość do wskazanego urządzenia. Podanie wiadomości i ID urządzenia.
+- Device Twin - Aktualizacja właściwości. UpdateDesiredTwin(deviceId, propertyName, value). Podanie ID urządzenia, właściwość i wartość.
+- Odbiór wiadomości C2D - SetReceiveMessageHandlerAsync odbiera wiadomości z chmury i wypisuje zawartość na konsolę.
+
