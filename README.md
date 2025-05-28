@@ -9,8 +9,8 @@
 4. [Konfiguracja]
 5. [Opis działania agenta]
 6. [Format wiadomości C2D]
-7. [Device Twin]
-8. [Obsługiwane metody bezpośrednie (Direct Methods)]
+7. [Menu Controlera i akcje] - symulacja
+8. [Opis dostępnych funkcjonalności]
 
 ---
 
@@ -115,7 +115,7 @@ Aplikacja IoT Agent umożliwia integrację urządzenia z serwerem OPC UA oraz Az
  
  [Agent] Device Offline -> Not Sending Data !
 ```
-### Menu Controlera i akcje
+## Menu Controlera i akcje
 ```
 [Controller] Azure Conntecting String Loaded
 ------ MENU ------
@@ -209,3 +209,17 @@ Device1
 "WorkerID":1871513973,"WorkorderID":1871513973,"kjfwf":1913029940,"prop1":691424510,"temperature":900235169}                                                                 
 [Agent]         Sending current time as reported property
 ```
+
+
+## Opis dostępnych funkcjonalności
+- `SendMessage()` - Wysyłanie danych do Azure IoT Hub. Odczytuje dane z OPC UA (status, temperatura, licznik dobrych/złych produktów, prędkość produkcji), parsuje do postaci JSON i wysyła jako komunikat do IoT Hub.
+- `TimerSendingMessages()` - Automatyczne wysyłanie danych w zależności od stanu urządzenia. Sprawdza, czy urządzenie jest w trybie pracy (ProductionStatus == 1). Jeżeli tak – wysyła dane. W przeciwnym razie analizuje błędy i nie wysyła danych.
+- `InitializerHandlers()` - Obsługa metod bezpośrednich z IoT Hub (Direct Methods). Obsługuje polecenia takie jak uruchomienie SendMessages(), zwiększa/ zmniejsza produkcję ChangeProgRateUp/Down(), awaryjne zatrzymanie EmergencyStop(), resetuje błędy ClearErrors(), włącza/wyłącza użądzenie PowerOn/Off() i zmienia ProductionStatus.
+- `On2cdMessageRecievedAsync()` - Obsługa wiadomości C2D (cloud-to-device). Odbiera wiadomości, printuje ich zawartość i kończy sesję.
+- `UpdateTwinAsync()` i `UpdateTwinData()` - Aktualizacja raportowanych właściwości urządzenia (Device Twin). Aktualizuje datę ostatniego uruchomienia aplikacji DateTimeLastAppLaunch. Przesyła aktualne błędy ErrorStatus i prędkość produkcji ProductionRate.
+- `OnDesirePropertyChanged()` - Ragowanie na zmienę właściwości pożądanych danych. Jeśli w Twin zmieniono ProductionRate, wartość ta jest przesyłana do serwera OPC UA.
+
+- Cloud to Device Message - Metoda SendMessage(messageText, deviceId) z klasy IotHubManager wysyła wiadomość do wskazanego urządzenia. Podanie wiadomości i ID urządzenia.
+- Device Twin - Aktualizacja właściwości. UpdateDesiredTwin(deviceId, propertyName, value). Podanie ID urządzenia, właściwość i wartość.
+- Odbiór wiadomości C2D - SetReceiveMessageHandlerAsync odbiera wiadomości z chmury i wypisuje zawartość na konsolę.
+
