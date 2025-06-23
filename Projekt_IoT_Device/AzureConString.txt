@@ -1,1 +1,1 @@
-HostName=projekt-iot.azure-devices.net;DeviceId=Device1;SharedAccessKey=6YVojAtq8v4YHIno38bH0S40gi9qBDhg1my9EYP6fHg=
+HostName=projekt-iot.azure-devices.net;DeviceId=Device3;SharedAccessKey=/Pv9IILPbaYUEkWqT1yD6bnxCMi52v9QuGZ632ik1UA=

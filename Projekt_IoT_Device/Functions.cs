@@ -16,7 +16,7 @@ namespace Projekt_IoT_Device
     {
         private readonly DeviceClient deviceClient;
         string OPCstring = File.ReadAllText("OpcUaConnectionString.txt");
-        string DeviceName = File.ReadAllText("OpcUaDeviceName.txt");
+        string DeviceName = "Device 1";
         public MyDevice(DeviceClient deviceClient)
         {
             this.deviceClient = deviceClient;
@@ -36,12 +36,12 @@ namespace Projekt_IoT_Device
 
             var data = new
             {
-                ProductionStatus = client.ReadNode($"ns=2;s={DeviceName}/ProductionStatus").Value,
+                ProductionStatus = client.ReadNode($"ns=2;s=Device 1/ProductionStatus").Value,
                 WorkorderId = client.ReadNode($"ns=2;s={DeviceName}/WorkorderId").Value,
                 Temperature = client.ReadNode($"ns=2;s={DeviceName}/Temperature").Value,
                 GoodCount = client.ReadNode($"ns=2;s={DeviceName}/GoodCount").Value,
                 BadCount = client.ReadNode($"ns=2;s={DeviceName}/BadCount").Value,
-                ProductionRate = client.ReadNode($"ns=2;s=Device1/ProductionRate").Value,
+                ProductionRate = client.ReadNode($"ns=2;s={DeviceName}/ProductionRate").Value,
             };
 
             var GoodCountCalculateNode = new OpcReadNode($"ns=2;s={DeviceName}/GoodCount");
@@ -199,7 +199,7 @@ namespace Projekt_IoT_Device
             var client = new OpcClient(OPCstring);
             client.Connect();
             await Task.Delay(10);
-            client.WriteNode($"ns=2;s=Device1/ProductionStatus", 1);
+            client.WriteNode($"ns=2;s=Device 1/ProductionStatus", 1);
             Console.WriteLine("[Agent] Device Run By Controller !");
             client.Disconnect();
             return new MethodResponse(0);
@@ -212,8 +212,8 @@ namespace Projekt_IoT_Device
             var client = new OpcClient(OPCstring);
             client.Connect();
             await Task.Delay(10);
-            client.WriteNode($"ns=2;s=Device1/ProductionStatus", 0);
-            Console.WriteLine(client.ReadNode("ns=2;s=Device1/ProductionStatus"));
+            client.WriteNode($"ns=2;s=Device 1/ProductionStatus", 0);
+            Console.WriteLine(client.ReadNode("ns=2;s=Device 1/ProductionStatus"));
 
             client.Disconnect();
             Console.WriteLine("[Agent] Device Stop By Controller !");
