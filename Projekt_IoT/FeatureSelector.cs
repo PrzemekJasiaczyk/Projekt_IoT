@@ -89,7 +89,7 @@ namespace Projekt_IoT
                         Console.WriteLine("\nEnter your Azure ID device and click enter: ");
                         string devideID = System.Console.ReadLine() ?? string.Empty;
 
-                        var result = await manager.ExecuteDeviceMethod("ClearErrors", devideID);
+                        var result = await manager.ExecuteDeviceMethod("ResetErrors", devideID);
                         Console.WriteLine($"[Controller] Method Executed with: {result}");
                     }
                     break;

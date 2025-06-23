@@ -1,0 +1,1 @@
+HostName=projekt-iot.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=C+4U1vEcfGiqt3tj7+LRdvmOtsOkaSxagAIoTKwRW+Y=

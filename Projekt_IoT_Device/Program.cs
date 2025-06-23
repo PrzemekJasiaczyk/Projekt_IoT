@@ -6,7 +6,7 @@ using Projekt_IoT_Device;
 
 
 
-string conString = "HostName=projekt-iot.azure-devices.net;DeviceId=Device1;SharedAccessKey=6YVojAtq8v4YHIno38bH0S40gi9qBDhg1my9EYP6fHg=";
+string conString = File.ReadAllText("AzureConString.txt");
 Console.WriteLine("|------------------------------------------|");
 Console.WriteLine("[Agent] Azure Conntecting String Loaded");
 

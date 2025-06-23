@@ -15,8 +15,8 @@ namespace Projekt_IoT_Device
     public class MyDevice
     {
         private readonly DeviceClient deviceClient;
-        string OPCstring = "opc.tcp://localhost:4840/";
-        string DeviceName = "Device1";
+        string OPCstring = File.ReadAllText("OpcUaConnectionString.txt");
+        string DeviceName = File.ReadAllText("OpcUaDeviceName.txt");
         public MyDevice(DeviceClient deviceClient)
         {
             this.deviceClient = deviceClient;
@@ -323,31 +323,47 @@ namespace Projekt_IoT_Device
         }
         #endregion
 
-        #region EmetgencyStop
+        #region EmergencyStop
         private async Task<MethodResponse> EmergencyStop(MethodRequest methodRequest, object userContext)
         {
-            var client = new OpcClient(OPCstring);
-            client.Connect();
-            await Task.Delay(1000);
-            client.CallMethod($"ns=2;s={DeviceName}", $"ns=2;s={DeviceName}/EmergencyStop");
+            try
+            {
+                var client = new OpcClient(OPCstring);
+                client.Connect();
+                await Task.Delay(1000);
+                client.CallMethod($"ns=2;s={DeviceName}", $"ns=2;s={DeviceName}/EmergencyStop");
+                client.Disconnect();
 
-            client.Disconnect();
-            Console.WriteLine("[Agent] Stop !");
-            return new MethodResponse(0);
+                Console.WriteLine("[Agent] Stop !");
+                return new MethodResponse(0); 
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[Error] EmergencyStop failed: {ex.Message}");
+                return new MethodResponse(500); 
+            }
         }
         #endregion
 
         #region ResetErrors
         private async Task<MethodResponse> ResetErrors(MethodRequest methodRequest, object userContext)
         {
-            var client = new OpcClient(OPCstring);
-            client.Connect();
-            await Task.Delay(1000);
-            client.CallMethod($"ns=2;s={DeviceName}", $"ns=2;s={DeviceName}/ResetErrorStatus");
+            try
+            {
+                var client = new OpcClient(OPCstring);
+                client.Connect();
+                await Task.Delay(1000);
+                client.CallMethod($"ns=2;s={DeviceName}", $"ns=2;s={DeviceName}/ResetErrorStatus");
+                client.Disconnect();
 
-            client.Disconnect();
-            Console.WriteLine("[Agent] Errors Reseted !");
-            return new MethodResponse(0);
+                Console.WriteLine("[Agent] Errors Reseted !");
+                return new MethodResponse(0); 
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[Error] ResetErrors failed: {ex.Message}");
+                return new MethodResponse(500); 
+            }
         }
         #endregion
     }
